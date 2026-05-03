@@ -95,7 +95,16 @@
               <div class="fileupload-loading"></div>
               <br>
               <!-- The table listing the files available for upload/download -->
-              <table class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
+              <table class="table table-striped" aria-describedby="uploaded-files-description">
+                <caption id="uploaded-files-description" class="sr-only">List of uploaded benefit form files with their details</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">File Name</th>
+                    <th scope="col">File Size</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
               </table>
             <% end %>
           <div id="progress">

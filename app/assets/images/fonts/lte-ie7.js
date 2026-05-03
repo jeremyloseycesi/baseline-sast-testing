@@ -2,10 +2,9 @@
 
 window.onload = function() {
 	function addIcon(el, entity) {
-		var html = el.innerHTML;
-		el.innerHTML = '<span style="font-family: \'icomoon\'">' + entity + '</span>' + html;
+		el.innerHTML = '<span style="font-family: \'icomoon\'">' + entity + '</span>' + el.innerHTML;
 	}
-	var icons = {
+	const icons = {
 			'icon-home' : '&#xe000;',
 			'icon-home-2' : '&#xe001;',
 			'icon-home-3' : '&#xe002;',
@@ -485,7 +484,8 @@ window.onload = function() {
 			'icon-rainy' : '&#xe1dc;'
 		},
 		els = document.getElementsByTagName('*'),
-		i, attr, html, c, el;
+		i, attr, c, el;
+	const iconRegex = /icon-[^\s'"]+/;
 	for (i = 0; i < els.length; i += 1) {
 		el = els[i];
 		attr = el.getAttribute('data-icon');
@@ -493,7 +493,7 @@ window.onload = function() {
 			addIcon(el, attr);
 		}
 		c = el.className;
-		c = c.match(/icon-[^\s'"]+/);
+		c = iconRegex.exec(c);
 		if (c && icons[c[0]]) {
 			addIcon(el, icons[c[0]]);
 		}

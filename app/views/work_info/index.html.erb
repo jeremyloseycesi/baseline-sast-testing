@@ -9,7 +9,8 @@
               </div>
             </div>
             <div class="widget-body">
-              <table class="table table-bordered table-striped">
+              <table class="table table-bordered table-striped" aria-describedby="employee_info_description">
+                <caption id="employee_info_description" class="sr-only">Employee work information including name, income, bonus, years worked, SSN, and date of birth</caption>
                 <thead>
                   <tr>
             <th style="width:16%">Full Name</th>
@@ -28,9 +29,6 @@
                     <td><%= @user.work_info.bonuses %></td>
                     <td><%= @user.work_info.years_worked %></td>
             <td class="ssn"><%= @user.work_info.SSN %></td>
-            <!-- Begin Secure Version>-->
-            <!--<td class="ssn"><%#= @user.work_info.last_four %></td>-->
-            <!-- End Secure Version -->
             <td><%= @user.work_info.DoB %></td>
                   </tr>
 

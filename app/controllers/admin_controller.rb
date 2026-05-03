@@ -5,6 +5,8 @@ class AdminController < ApplicationController
   layout false, only: [:get_all_users, :get_user]
 
   def dashboard
+    # Empty action - renders default dashboard view template
+    # No additional logic required as view handles display
   end
 
   def analytics
@@ -36,7 +38,7 @@ class AdminController < ApplicationController
     if user
       user.update(params[:user].reject { |k| k == ("password" || "password_confirmation") })
       pass = params[:user][:password]
-      user.password = pass if !(pass.blank?)
+      user.password = pass if pass.present?
       user.save!
       message = true
     end
@@ -47,7 +49,7 @@ class AdminController < ApplicationController
 
   def delete_user
     user = User.find_by(id: params[:admin_id])
-    if user && !(current_user.id == user.id)
+    if user && current_user.id != user.id
       # Call destroy here so that all association records w/ id are destroyed as well
       # Example user.retirement records would be destroyed
       user.destroy

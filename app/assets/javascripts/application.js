@@ -56,12 +56,12 @@ function coerceToString(val) {
   return String((val === null || val === undefined) ? '' : val);
 }
 
-var rAmp = /&/g,
+const rAmp = /&/g,
      rLt = /</g,
      rGt = />/g,
-     rApos = /\'/g,
-     rQuot = /\"/g,
-     hChars = /[&<>\"\']/;
+     rApos = /'/g,
+     rQuot = /"/g,
+     hChars = /[&<>"']/;
 
 function hoganEscape(str) {
     str = coerceToString(str);

@@ -6,7 +6,8 @@
 </form>
 
 <div id="dt_example" class="example_alt_pagination">
-    <table class="table table-striped table-hover table-bordered pull-left <%= "custom" if params[:field] %>" id="data-table">
+    <table class="table table-striped table-hover table-bordered pull-left <%= "custom" if params[:field] %>" id="data-table" aria-describedby="analytics_table_description">
+      <caption id="analytics_table_description" class="sr-only">Analytics data table showing visitor information including IP addresses, referrers, and user agents</caption>
       <thead>
         <tr>
           <%

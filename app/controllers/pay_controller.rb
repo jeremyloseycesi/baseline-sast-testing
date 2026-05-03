@@ -2,6 +2,8 @@
 class PayController < ApplicationController
 
   def index
+    # This action renders the default index view for payment information
+    # No additional logic is required as the view handles the display
   end
 
   def update_dd_info

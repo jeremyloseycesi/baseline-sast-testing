@@ -18,18 +18,22 @@ class Api::V1::UsersController < ApplicationController
 
   def valid_api_token
     authenticate_or_request_with_http_token do |token, options|
-      # TODO :add some functionality to check if the HTTP Header is valid
-      if !identify_user(token)
-        redirect_to root_url
+      unless identify_user(token)
+        head :unauthorized
+        return false
       end
     end
   end
 
   def identify_user(token = "")
+    return false if token.blank?
+    
     # We've had issues with URL encoding, etc. causing issues so just to be safe
     # we will go ahead and unescape the user's token
     unescape_token(token)
-    @clean_token =~ /(.*?)-(.*)/
+    
+    return false unless @clean_token =~ /\A(\d+)-([\da-f]+)\z/
+    
     id = $1
     hash = $2
 
@@ -37,8 +41,10 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def check_hash(id, hash)
+    return false if id.blank? || hash.blank?
+    
     digest = OpenSSL::Digest::SHA1.hexdigest("#{ACCESS_TOKEN_SALT}:#{id}")
-    hash == digest
+    ActiveSupport::SecurityUtils.secure_compare(hash, digest)
   end
 
   # We had some issues with the token and url encoding...

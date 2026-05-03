@@ -17,7 +17,7 @@ $(function () {
 
     // Start slideshow button:
     $('#start-slideshow').button().click(function () {
-        var options = $(this).data(),
+        const options = $(this).data(),
             modal = $(options.target),
             data = modal.data('modal');
         if (data) {
@@ -33,7 +33,7 @@ $(function () {
 
     // Toggle fullscreen button:
     $('#toggle-fullscreen').button().click(function () {
-        var button = $(this),
+        const button = $(this),
             root = document.documentElement;
         if (!button.hasClass('active')) {
             $('#modal-gallery').addClass('modal-fullscreen');

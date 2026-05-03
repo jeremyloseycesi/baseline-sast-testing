@@ -12,7 +12,9 @@ feature "csrf" do
 
   scenario "attack\nTutorial: https://github.com/OWASP/railsgoat/wiki/R5-A8-CSRF", js: true do
     visit "/"
-    # TODO: is there a way to get this without visiting root first?
+    # Get the base URL from the current page after visiting root.
+    # This is necessary because we need the full URL including protocol and host
+    # to construct the CSRF attack form that will be loaded from a file:// URL.
     base_url = current_url
 
     login(normal_user)

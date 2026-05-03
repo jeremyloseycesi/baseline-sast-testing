@@ -9,15 +9,15 @@
  * Authors: Vadim Vincent Gabriel (http://vadimg.com), Jason Gill (www.gilluminate.com)
  */
 ;(function($) {
-var bootstrapWizardCreate = function(element, options) {
-	var element = $(element);
-	var obj = this;
+const bootstrapWizardCreate = function(element, options) {
+	const $element = $(element);
+	const obj = this;
 
 	// Merge options with defaults
-	//var $settings = $.extend($.fn.bootstrapWizard.defaults, options || {});
-	var $settings = $.extend({}, $.fn.bootstrapWizard.defaults, options);
-	var $activeTab = null;
-	var $navigation = null;
+	//const $settings = $.extend($.fn.bootstrapWizard.defaults, options || {});
+	const $settings = $.extend({}, $.fn.bootstrapWizard.defaults, options);
+	let $activeTab = null;
+	let $navigation = null;
 
 	this.fixNavigationButtons = function() {
 		// Get the current active tab
@@ -29,15 +29,15 @@ var bootstrapWizardCreate = function(element, options) {
 
 		// See if we're currently in the first/last then disable the previous and last buttons
 		if(obj.firstIndex() >= obj.currentIndex()) {
-			$('li.previous', element).addClass('disabled');
+			$('li.previous', $element).addClass('disabled');
 		} else{
-			$('li.previous', element).removeClass('disabled');
+			$('li.previous', $element).removeClass('disabled');
 		}
 
 		if(obj.currentIndex() >= obj.navigationLength()) {
-			$('li.next', element).addClass('disabled');
+			$('li.next', $element).addClass('disabled');
 		} else {
-			$('li.next', element).removeClass('disabled');
+			$('li.next', $element).removeClass('disabled');
 		}
 
 		if($settings.onTabShow && typeof $settings.onTabShow === 'function' && $settings.onTabShow($activeTab, $navigation, obj.currentIndex())===false){
@@ -48,7 +48,7 @@ var bootstrapWizardCreate = function(element, options) {
 	this.next = function(e) {
 
 		// If we clicked the last then dont activate this
-		if(element.hasClass('last')) {
+		if($element.hasClass('last')) {
 			return false;
 		}
 
@@ -57,8 +57,10 @@ var bootstrapWizardCreate = function(element, options) {
 		}
 
 		// Did we click the last button
-		$index = obj.nextIndex();
+		const $index = obj.nextIndex();
 		if($index > obj.navigationLength()) {
+			// Index out of bounds - do nothing
+			return false;
 		} else {
 			$navigation.find('li:eq('+$index+') a').tab('show');
 		}
@@ -67,7 +69,7 @@ var bootstrapWizardCreate = function(element, options) {
 	this.previous = function(e) {
 
 		// If we clicked the first then dont activate this
-		if(element.hasClass('first')) {
+		if($element.hasClass('first')) {
 			return false;
 		}
 
@@ -75,8 +77,10 @@ var bootstrapWizardCreate = function(element, options) {
 			return false;
 		}
 
-		$index = obj.previousIndex();
+		const $index = obj.previousIndex();
 		if($index < 0) {
+			// Index out of bounds - do nothing
+			return false;
 		} else {
 			$navigation.find('li:eq('+$index+') a').tab('show');
 		}
@@ -88,7 +92,7 @@ var bootstrapWizardCreate = function(element, options) {
 		}
 
 		// If the element is disabled then we won't do anything
-		if(element.hasClass('disabled')) {
+		if($element.hasClass('disabled')) {
 			return false;
 		}
 		$navigation.find('li:eq(0) a').tab('show');
@@ -100,7 +104,7 @@ var bootstrapWizardCreate = function(element, options) {
 		}
 
 		// If the element is disabled then we won't do anything
-		if(element.hasClass('disabled')) {
+		if($element.hasClass('disabled')) {
 			return false;
 		}
 		$navigation.find('li:eq('+obj.navigationLength()+') a').tab('show');
@@ -139,11 +143,11 @@ var bootstrapWizardCreate = function(element, options) {
 		return $navigation.find('li:eq('+parseInt(obj.currentIndex()-1)+')');
 	};
 	this.show = function(index) {
-		return element.find('li:eq(' + index + ') a').tab('show');
+		return $element.find('li:eq(' + index + ') a').tab('show');
 	};
 
-	$navigation = element.find('ul:first', element);
-	$activeTab = $navigation.find('li.active', element);
+	$navigation = $element.find('ul:first', $element);
+	$activeTab = $navigation.find('li.active', $element);
 
 	if(!$navigation.hasClass($settings.tabClass)) {
 		$navigation.addClass($settings.tabClass);
@@ -155,10 +159,10 @@ var bootstrapWizardCreate = function(element, options) {
 	}
 
 	// Next/Previous events
-	$($settings.nextSelector, element).bind('click', obj.next);
-	$($settings.previousSelector, element).bind('click', obj.previous);
-	$($settings.lastSelector, element).bind('click', obj.last);
-	$($settings.firstSelector, element).bind('click', obj.first);
+	$($settings.nextSelector, $element).bind('click', obj.next);
+	$($settings.previousSelector, $element).bind('click', obj.previous);
+	$($settings.lastSelector, $element).bind('click', obj.last);
+	$($settings.firstSelector, $element).bind('click', obj.first);
 
 	// Load onShow
 	if($settings.onShow && typeof $settings.onShow === 'function'){
@@ -168,20 +172,20 @@ var bootstrapWizardCreate = function(element, options) {
 	// Work the next/previous buttons
 	obj.fixNavigationButtons();
 
-	$('a[data-toggle="tab"]', element).on('click', function (e) {
+	$('a[data-toggle="tab"]', $element).on('click', function (e) {
 		if($settings.onTabClick && typeof $settings.onTabClick === 'function' && $settings.onTabClick($activeTab, $navigation, obj.currentIndex())===false){
 			return false;
 		}
 	});
 
-	$('a[data-toggle="tab"]', element).on('show', function (e) {
-		$element = $(e.target).parent();
+	$('a[data-toggle="tab"]', $element).on('show', function (e) {
+		const $tabElement = $(e.target).parent();
 		// If it's disabled then do not change
-		if($element.hasClass('disabled')) {
+		if($tabElement.hasClass('disabled')) {
 			return false;
 		}
 
-		$activeTab = $element; // activated tab
+		$activeTab = $tabElement; // activated tab
 		obj.fixNavigationButtons();
 
 	});
@@ -189,15 +193,15 @@ var bootstrapWizardCreate = function(element, options) {
 $.fn.bootstrapWizard = function(options) {
 	//expose methods
 	if (typeof options == 'string') {
-		var args = Array.prototype.slice.call(arguments, 1).toString();
+		const args = Array.prototype.slice.call(arguments, 1).toString();
 		return this.data('bootstrapWizard')[options](args);
 	}
 	return this.each(function(index){
-		var element = $(this);
+		const element = $(this);
 		// Return early if this element already has a plugin instance
 		if (element.data('bootstrapWizard')) return;
 		// pass options to plugin constructor
-		var wizard = new bootstrapWizardCreate(element, options);
+		const wizard = new bootstrapWizardCreate(element, options);
 		// Store plugin object in this element's data
 		element.data('bootstrapWizard', wizard);
 	});

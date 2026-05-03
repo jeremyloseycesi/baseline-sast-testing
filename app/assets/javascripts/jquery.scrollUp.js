@@ -17,7 +17,7 @@ Twitter: @markgdyr
 	$.scrollUp = function (options) {
 
 		// Settings
-		var settings = {
+		let settings = {
 			scrollName: 'scrollUp', // Element ID
 			topDistance: '300', // Distance from top before showing element (px)
 			topSpeed: 300, // Speed back to top (ms)
@@ -30,11 +30,11 @@ Twitter: @markgdyr
 
 		// Load settings
 		if (options) {
-			var settings = $.extend(settings, options);
+			settings = $.extend(settings, options);
 		}
 
 		// Shorthand setting names
-		var sn = '#' + settings.scrollName,
+		const sn = '#' + settings.scrollName,
 			an = settings.animation,
 			os = settings.animationOutSpeed,
 			is = settings.animationInSpeed,

@@ -8,7 +8,6 @@ class ScheduleController < ApplicationController
         sched = Schedule.new(schedule_params)
         sched.date_begin, sched.date_end = format_schedule_date(params[:date_range1])
         sched.user_id = current_user.id
-        a = sched.date_end
         if sched.save
           message = true
         end
@@ -31,7 +30,9 @@ class ScheduleController < ApplicationController
           hash[:end] = s[:date_end]
           jfs << hash
        end
-    rescue
+    rescue => e
+       Rails.logger.error("Error fetching PTO schedule: #{e.message}")
+       jfs = []
     end
     respond_to do |format|
        format.json { render json: jfs.to_json }

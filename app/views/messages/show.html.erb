@@ -23,7 +23,7 @@
                     <tr>
                     <td><%= @message.creator_name %></td>
                     <td><%= @message.created_at.to_date %></td>
-                    <td><%= @message.message %></td>
+                    <td><%= sanitize @message.message %></td>
                     <td><%= link_to "Delete", user_message_path, {:id => "@message.id", :method => 'delete', :class => "btn btn-danger pull-left"}%></td>
                     </tr>
                 </tbody>

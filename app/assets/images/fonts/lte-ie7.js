@@ -482,9 +482,9 @@ window.onload = function() {
 			'icon-cloudy' : '&#xe1da;',
 			'icon-cloud-2' : '&#xe1db;',
 			'icon-rainy' : '&#xe1dc;'
-		},
-		els = document.getElementsByTagName('*'),
-		i, attr, c, el;
+		};
+	const els = document.getElementsByTagName('*');
+	let i, attr, c, el;
 	const iconRegex = /icon-[^\s'"]+/;
 	for (i = 0; i < els.length; i += 1) {
 		el = els[i];

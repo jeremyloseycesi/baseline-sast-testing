@@ -24,6 +24,8 @@ class AdminController < ApplicationController
   end
 
   def get_all_users
+    # Empty action - renders default view template with @users instance variable
+    # The view template handles the display of all users
     @users = User.all
   end
 
@@ -36,7 +38,7 @@ class AdminController < ApplicationController
   def update_user
     user = User.find_by_id(params[:admin_id])
     if user
-      user.update(params[:user].reject { |k| k == ("password" || "password_confirmation") })
+      user.update(params[:user].reject { |k| k != "password" && k != "password_confirmation" })
       pass = params[:user][:password]
       user.password = pass if pass.present?
       user.save!

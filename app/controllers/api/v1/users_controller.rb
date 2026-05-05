@@ -28,14 +28,13 @@ class Api::V1::UsersController < ApplicationController
   def identify_user(token = "")
     return false if token.blank?
     
-    # We've had issues with URL encoding, etc. causing issues so just to be safe
-    # we will go ahead and unescape the user's token
+    # Normalize the user's token to handle URL encoding issues
     unescape_token(token)
     
     return false unless @clean_token =~ /\A(\d+)-([\da-f]+)\z/
     
-    id = $1
-    hash = $2
+    id = Regexp.last_match(1)
+    hash = Regexp.last_match(2)
 
     check_hash(id, hash)
   end

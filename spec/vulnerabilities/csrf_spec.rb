@@ -7,7 +7,6 @@ feature "csrf" do
 
   before(:each) do
     UserFixture.reset_all_users
-    pending unless verifying_fixed?
   end
 
   scenario "attack\nTutorial: https://github.com/OWASP/railsgoat/wiki/R5-A8-CSRF", js: true do

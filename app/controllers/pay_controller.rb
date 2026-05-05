@@ -38,6 +38,9 @@ class PayController < ApplicationController
   end
 
   def decrypted_bank_acct_num
+    # This method decrypts sensitive banking information for display purposes
+    # It accepts an encrypted value via params and returns the decrypted account number
+    # Returns "No Data" if decryption fails or value is nil
     decrypted = Encryption.decrypt_sensitive_value(params[:value_to_decrypt])
     respond_to do |format|
       format.json { render json: {account_num: decrypted || "No Data" } }

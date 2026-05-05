@@ -9,7 +9,7 @@
 <%
 if cookies[:font]
 %>
-<style>body { font-size:<%= raw cookies[:font] %> !important;}</style>
+<style>body { font-size:<%= cookies[:font].gsub(/[^0-9a-zA-Z%.]/, '') %> !important;}</style>
 <%
 end
 %>

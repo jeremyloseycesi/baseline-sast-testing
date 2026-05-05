@@ -63,6 +63,7 @@ const bootstrapWizardCreate = function(element, options) {
 			return false;
 		} else {
 			$navigation.find('li:eq('+$index+') a').tab('show');
+			return true;
 		}
 	};
 
@@ -83,6 +84,7 @@ const bootstrapWizardCreate = function(element, options) {
 			return false;
 		} else {
 			$navigation.find('li:eq('+$index+') a').tab('show');
+			return true;
 		}
 	};
 
@@ -96,7 +98,7 @@ const bootstrapWizardCreate = function(element, options) {
 			return false;
 		}
 		$navigation.find('li:eq(0) a').tab('show');
-
+		return true;
 	};
 	this.last = function(e) {
 		if($settings.onLast && typeof $settings.onLast === 'function' && $settings.onLast($activeTab, $navigation, obj.lastIndex())===false){
@@ -108,6 +110,7 @@ const bootstrapWizardCreate = function(element, options) {
 			return false;
 		}
 		$navigation.find('li:eq('+obj.navigationLength()+') a').tab('show');
+		return true;
 	};
 	this.currentIndex = function() {
 		return $navigation.find('li').index($activeTab);
@@ -197,13 +200,13 @@ $.fn.bootstrapWizard = function(options) {
 		return this.data('bootstrapWizard')[options](args);
 	}
 	return this.each(function(index){
-		const element = $(this);
+		const $element = $(this);
 		// Return early if this element already has a plugin instance
-		if (element.data('bootstrapWizard')) return;
+		if ($element.data('bootstrapWizard')) return;
 		// pass options to plugin constructor
-		const wizard = new bootstrapWizardCreate(element, options);
+		const wizard = new bootstrapWizardCreate($element, options);
 		// Store plugin object in this element's data
-		element.data('bootstrapWizard', wizard);
+		$element.data('bootstrapWizard', wizard);
 	});
 };
 

@@ -31,6 +31,6 @@ function validation(){
 					$('.error').css({"color": "#333333"});
 		}
 	});
-};
+}
 
 $(document).ready(validation);

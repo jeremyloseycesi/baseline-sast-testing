@@ -19,23 +19,23 @@ class ScheduleController < ApplicationController
   end
 
   def get_pto_schedule
-    begin
-       schedules = current_user.paid_time_off.schedule
-       jfs = []
-       schedules.each do |s|
-          hash = Hash.new
-          hash[:id] = s[:id]
-          hash[:title] = s[:event_name]
-          hash[:start] = s[:date_begin]
-          hash[:end] = s[:date_end]
-          jfs << hash
-       end
-    rescue => e
-       Rails.logger.error("Error fetching PTO schedule: #{e.message}")
-       jfs = []
+    schedules = current_user.paid_time_off.schedule
+    jfs = []
+    schedules.each do |s|
+      hash = Hash.new
+      hash[:id] = s[:id]
+      hash[:title] = s[:event_name]
+      hash[:start] = s[:date_begin]
+      hash[:end] = s[:date_end]
+      jfs << hash
     end
     respond_to do |format|
        format.json { render json: jfs.to_json }
+    end
+  rescue => e
+    Rails.logger.error("Error fetching PTO schedule: #{e.message}")
+    respond_to do |format|
+      format.json { render json: [].to_json }
     end
   end
 

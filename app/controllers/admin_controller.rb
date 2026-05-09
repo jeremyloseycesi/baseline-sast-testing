@@ -17,8 +17,12 @@ class AdminController < ApplicationController
     end
 
     if params[:ip]
+      # Filtering analytics by IP address with specified fields
+      # This allows administrators to track specific user activity
       @analytics = Analytics.hits_by_ip(params[:ip], fields)
     else
+      # Retrieving all analytics records when no IP filter is specified
+      # Used for general dashboard overview of system activity
       @analytics = Analytics.all
     end
   end

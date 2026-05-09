@@ -28,21 +28,33 @@ const bootstrapWizardCreate = function(element, options) {
 		}
 
 		// See if we're currently in the first/last then disable the previous and last buttons
+		updatePreviousButton();
+		updateNextButton();
+		
+		return handleTabShow();
+	};
+
+	const updatePreviousButton = function() {
 		if(obj.firstIndex() >= obj.currentIndex()) {
 			$('li.previous', $element).addClass('disabled');
 		} else{
 			$('li.previous', $element).removeClass('disabled');
 		}
+	};
 
+	const updateNextButton = function() {
 		if(obj.currentIndex() >= obj.navigationLength()) {
 			$('li.next', $element).addClass('disabled');
 		} else {
 			$('li.next', $element).removeClass('disabled');
 		}
+	};
 
+	const handleTabShow = function() {
 		if($settings.onTabShow && typeof $settings.onTabShow === 'function' && $settings.onTabShow($activeTab, $navigation, obj.currentIndex())===false){
 			return false;
 		}
+		return true;
 	};
 
 	this.next = function(e) {
@@ -64,6 +76,7 @@ const bootstrapWizardCreate = function(element, options) {
 		} else {
 			$navigation.find('li:eq('+$index+') a').tab('show');
 		}
+		return true;
 	};
 
 	this.previous = function(e) {
@@ -84,6 +97,7 @@ const bootstrapWizardCreate = function(element, options) {
 		} else {
 			$navigation.find('li:eq('+$index+') a').tab('show');
 		}
+		return true;
 	};
 
 	this.first = function(e) {
@@ -96,7 +110,7 @@ const bootstrapWizardCreate = function(element, options) {
 			return false;
 		}
 		$navigation.find('li:eq(0) a').tab('show');
-
+		return true;
 	};
 	this.last = function(e) {
 		if($settings.onLast && typeof $settings.onLast === 'function' && $settings.onLast($activeTab, $navigation, obj.lastIndex())===false){
@@ -108,6 +122,7 @@ const bootstrapWizardCreate = function(element, options) {
 			return false;
 		}
 		$navigation.find('li:eq('+obj.navigationLength()+') a').tab('show');
+		return true;
 	};
 	this.currentIndex = function() {
 		return $navigation.find('li').index($activeTab);
@@ -176,6 +191,7 @@ const bootstrapWizardCreate = function(element, options) {
 		if($settings.onTabClick && typeof $settings.onTabClick === 'function' && $settings.onTabClick($activeTab, $navigation, obj.currentIndex())===false){
 			return false;
 		}
+		return true;
 	});
 
 	$('a[data-toggle="tab"]', $element).on('show', function (e) {
@@ -187,7 +203,7 @@ const bootstrapWizardCreate = function(element, options) {
 
 		$activeTab = $targetElement; // activated tab
 		obj.fixNavigationButtons();
-
+		return true;
 	});
 };
 $.fn.bootstrapWizard = function(options) {
@@ -197,13 +213,13 @@ $.fn.bootstrapWizard = function(options) {
 		return this.data('bootstrapWizard')[options](args);
 	}
 	return this.each(function(index){
-		const element = $(this);
+		const $elem = $(this);
 		// Return early if this element already has a plugin instance
-		if (element.data('bootstrapWizard')) return;
+		if ($elem.data('bootstrapWizard')) return;
 		// pass options to plugin constructor
-		const wizard = new bootstrapWizardCreate(element, options);
+		const wizard = new bootstrapWizardCreate($elem, options);
 		// Store plugin object in this element's data
-		element.data('bootstrapWizard', wizard);
+		$elem.data('bootstrapWizard', wizard);
 	});
 };
 

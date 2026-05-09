@@ -29,7 +29,9 @@ class PayController < ApplicationController
 
   def destroy
     pay = Pay.find_by_id(params[:id])
-    if pay.present? and pay.destroy
+    # Verify ownership before deletion to prevent unauthorized access
+    # Only allow users to delete their own payment records
+    if pay.present? && pay.user_id == current_user.id && pay.destroy
       flash[:success] = "Successfully Deleted Entry"
     else
       flash[:error] = "Unable to process that request at this time"

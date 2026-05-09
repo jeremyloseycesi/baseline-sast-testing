@@ -17,8 +17,8 @@ $(function () {
 
     // Start slideshow button:
     $('#start-slideshow').button().click(function () {
-        const options = $(this).data(),
-            modal = $(options.target),
+        let options = $(this).data();
+        const modal = $(options.target),
             data = modal.data('modal');
         if (data) {
             $.extend(data.options, options);
@@ -63,8 +63,8 @@ $(function () {
 	   //  dataType: 'jsonp',
     //     jsonp: 'jsoncallback'
     // }).done(function (data) {
-    //     var gallery = $('#gallery'),
-    //         url;
+    //     const gallery = $('#gallery');
+    //     let url;
     //     $.each(data.photos.photo, function (index, photo) {
     //         url = 'http://farm' + photo.farm + '.static.flickr.com/' +
     //             photo.server + '/' + photo.id + '_' + photo.secret;

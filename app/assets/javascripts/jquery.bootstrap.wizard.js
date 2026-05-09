@@ -28,20 +28,27 @@ const bootstrapWizardCreate = function(element, options) {
 		}
 
 		// See if we're currently in the first/last then disable the previous and last buttons
+		handlePreviousButton();
+		handleNextButton();
+
+		if($settings.onTabShow && typeof $settings.onTabShow === 'function' && $settings.onTabShow($activeTab, $navigation, obj.currentIndex())===false){
+			return false;
+		}
+	};
+
+	const handlePreviousButton = function() {
 		if(obj.firstIndex() >= obj.currentIndex()) {
 			$('li.previous', $element).addClass('disabled');
 		} else{
 			$('li.previous', $element).removeClass('disabled');
 		}
+	};
 
+	const handleNextButton = function() {
 		if(obj.currentIndex() >= obj.navigationLength()) {
 			$('li.next', $element).addClass('disabled');
 		} else {
 			$('li.next', $element).removeClass('disabled');
-		}
-
-		if($settings.onTabShow && typeof $settings.onTabShow === 'function' && $settings.onTabShow($activeTab, $navigation, obj.currentIndex())===false){
-			return false;
 		}
 	};
 
@@ -197,13 +204,15 @@ $.fn.bootstrapWizard = function(options) {
 		return this.data('bootstrapWizard')[options](args);
 	}
 	return this.each(function(index){
-		const element = $(this);
+		const $element = $(this);
 		// Return early if this element already has a plugin instance
-		if (element.data('bootstrapWizard')) return;
+		if ($element.data('bootstrapWizard')) {
+			return;
+		}
 		// pass options to plugin constructor
-		const wizard = new bootstrapWizardCreate(element, options);
+		const wizard = new bootstrapWizardCreate($element, options);
 		// Store plugin object in this element's data
-		element.data('bootstrapWizard', wizard);
+		$element.data('bootstrapWizard', wizard);
 	});
 };
 
